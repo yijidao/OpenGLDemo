@@ -39,7 +39,6 @@ unsafe void OnWindowOnLoad()
     _shader = new Shader.Shader(_gl, $"{Path.Combine(Directory.GetCurrentDirectory(), "shader.vert")}",
         $"{Path.Combine(Directory.GetCurrentDirectory(), "shader.frag")}");
 
-
     vao = _gl.GenVertexArray();
     vbo = _gl.GenBuffer();
 
@@ -51,7 +50,7 @@ unsafe void OnWindowOnLoad()
     }
 
     //_gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), (void*)0);
-    //_gl.EnableVertexAttribArray(0);
+    //_gl.EnableVertexAttribArray(0);1
 
     _gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), (void*)0);
     _gl.EnableVertexAttribArray(0);
@@ -61,6 +60,8 @@ unsafe void OnWindowOnLoad()
 
 }
 
+long s = 0;
+
 unsafe void OnWindowOnRender(double d)
 {
     _gl.Clear(ClearBufferMask.ColorBufferBit);
@@ -68,8 +69,27 @@ unsafe void OnWindowOnRender(double d)
     _gl.BindVertexArray(vao);
     _shader.Use();
 
+
+
     //var f = DateTime.Now.Second / 59f;
     //_shader.SetUniform("vertexColor2", f);
+    //var f = (DateTime.Now.Millisecond - 500) / 499f * 0.5f;
+    //Math.Sin(DateTime.Now.Minute - 500)
+    //if (DateTime.Now.Millisecond % 100 == 0)
+    //{
+    //    var f = (float)Math.Sin((s++ )*Math.PI /180);
+    //    Console.WriteLine($"{s}  {f}");
+    //    _shader.SetUniform("offset", f);
+
+    //}
+    s++;
+    var f1 = (float)Math.Sin((s) * Math.PI / 180);
+    var f2 = (float)Math.Cos((s) * Math.PI / 180);
+    //Console.WriteLine($"{s}  {f}");
+    _shader.SetUniform("xOffset", f1);
+    _shader.SetUniform("yOffset", f2);
+
+    //Console.WriteLine((DateTime.Now.Millisecond - 500) / 9f) ;
 
     _gl.DrawArrays(PrimitiveType.Triangles, 0, 3);
 
